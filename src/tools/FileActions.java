@@ -2,16 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package jsync;
+package tools;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 /**
@@ -27,10 +24,10 @@ public class FileActions
         {
             FileChannel ch = new FileInputStream(fileName).getChannel();
             ByteBuffer bb = ByteBuffer.allocateDirect(BUFFER_SIZE);
-            
+
             int nRead;
             MessageDigest md = MessageDigest.getInstance("MD5");
-            
+
             while ((nRead = ch.read(bb)) != -1)
             {
                 if (nRead == 0)
@@ -46,9 +43,10 @@ public class FileActions
             }
             return (new HexBinaryAdapter()).marshal(md.digest());
         }
-        finally
+        catch (Exception e)
         {
             return "MD5 could not be calculated";
         }
     }
+
 }
