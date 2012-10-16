@@ -18,7 +18,7 @@ public class Delta
     {
         this.deltas=deltas;
     }
-    static Delta generateDelta(ChecksumFile liveFile, ChecksumFile testFile)
+    static Delta generateDelta(Checksum liveFile, Checksum testFile)
     {
         if(liveFile.BUFFER_SIZE!=testFile.BUFFER_SIZE)
         {

@@ -11,6 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.xml.bind.DatatypeConverter;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 /**
@@ -42,15 +43,15 @@ public class Tools
                     (byte) (value >>> 8),
                     (byte) value
                 });
-}
+    }
     public static long convert(byte[] b)
     {
         return ByteBuffer.wrap(b).getLong();
     }
-    public static boolean delete(String...fileNames)
+    public static boolean delete(String... fileNames)
     {
         boolean result = true;
-        for(String fileName:fileNames)
+        for (String fileName : fileNames)
         {
             result &= new File(fileName).delete();
         }
@@ -61,7 +62,7 @@ public class Tools
         try
         {
             FileChannel ch = new FileInputStream(fileName).getChannel();
-            ByteBuffer bb = ByteBuffer.allocateDirect(1024*1024);
+            ByteBuffer bb = ByteBuffer.allocateDirect(1024 * 1024);
 
             int nRead;
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -86,8 +87,12 @@ public class Tools
             return "MD5 could not be calculated";
         }
     }
-    public static String getChecksumString(byte[] checksumBytes)
+    public static String toHexString(byte[] array)
     {
-        return (new HexBinaryAdapter()).marshal(checksumBytes);
+        return DatatypeConverter.printHexBinary(array);
+    }
+    public static byte[] toHexByteArray(String s)
+    {
+        return DatatypeConverter.parseHexBinary(s);
     }
 }
